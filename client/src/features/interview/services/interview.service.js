@@ -17,7 +17,6 @@ export async function generateReport(payload, onUploadProgress) {
   }
 
   const { data } = await api.post(`${BASE_PATH}/generate-report`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: (event) => {
       if (!onUploadProgress || !event.total) return;
       onUploadProgress(Math.round((event.loaded * 100) / event.total));
