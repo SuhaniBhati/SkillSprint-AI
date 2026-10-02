@@ -1,8 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const authRouter = require('./routes/auth.routes')
-const interviewRouter = require('./routes/interview.routes')
+const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
+const authRouter = require("./routes/auth.routes");
+const interviewRouter = require("./routes/interview.routes");
+
 const app = express();
 
 app.use(cors({
@@ -11,11 +13,26 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
 app.use(cookieParser());
 
-app.use('/api/auth', authRouter)
-app.use('/api/interview', interviewRouter)
+// Health check routes
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "SkillSprint AI backend is running",
+    });
+});
 
-module.exports = app
+app.get("/api/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "API is healthy",
+    });
+});
+
+// Existing API routes
+app.use("/api/auth", authRouter);
+app.use("/api/interview", interviewRouter);
+
+module.exports = app;
 
