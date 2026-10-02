@@ -1,4 +1,4 @@
-import api from "./interview.api";
+import api from "../../interview/services/interview.api.js";
 
 export async function register({ username, email, password }) {
   const { data } = await api.post("/api/auth/register", {
