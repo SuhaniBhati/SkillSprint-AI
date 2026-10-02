@@ -13,7 +13,7 @@ import DeleteDialog from "../components/DeleteDialog";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   const { query, setQuery, debouncedQuery, clearQuery, isSearching } = useSearchReports();
   const {
@@ -30,11 +30,14 @@ export default function Home() {
   const [reportToRename, setReportToRename] = useState(null);
   const [reportToDelete, setReportToDelete] = useState(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
-  };
+  const handleLogout = async () => {
+      try {
+        await logout();
+        navigate("/login");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
+    };
 
   const handleRenameSave = async (title) => {
     const success = await renameReportById(reportToRename._id, title);
